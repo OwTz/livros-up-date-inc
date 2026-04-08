@@ -1,10 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "livro.h"
+
+// node for list
 
 
+// livro struct
+struct livro{
+    char nome[30];
+    bool islea;
+    bool isdoado;
 
+    // nó para a outra estrutura
+    struct livro *nextLivro;
+};
+
+// firstLivro e LastLivro
+
+struct livro *firstLivro = NULL;
+struct livro *lastLivro = NULL;
+
+// input novo livro
+void inputNewLivro(){
+    struct livro *newlivro = (struct livro *) malloc( sizeof (struct livro));
+    printf("digite o nome do livro: \n");
+    scanf("%s",&newlivro->nome);
+
+    printf("adicionado o livro: %s",&newlivro->nome);
+
+
+}
 
 int main()
 {
@@ -30,6 +55,11 @@ int main()
             system("cls");
             printf("verificando lista de livros : \n");
             system("pause");
+        }
+        if( opc == 2){
+            printf("%s",header);
+            printf("vamos adicionar um novo livro \n");
+            inputNewLivro();
         }
         else {
             printf("escolha uma opção válida \n");
