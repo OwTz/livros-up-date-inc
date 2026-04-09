@@ -16,18 +16,61 @@ struct livro{
 };
 
 // firstLivro e LastLivro
-
 struct livro *firstLivro = NULL;
 struct livro *lastLivro = NULL;
 
-// input novo livro
-void inputNewLivro(){
+// criando uma nova lista
+void createNewList(){
     struct livro *newlivro = (struct livro *) malloc( sizeof (struct livro));
+
+    newlivro->nextLivro = NULL;
+
     printf("digite o nome do livro: \n");
     scanf("%s",&newlivro->nome);
-
     printf("adicionado o livro: %s",&newlivro->nome);
+    newlivro->isdoado = false;
+    newlivro->islea = false;
 
+    firstLivro = lastLivro = newlivro;
+
+}
+// saída de todos os livros
+void outLivroData(){
+    struct livro *livroViews = firstLivro;
+    printf("iniciando novo produto \n");
+    while(livroViews != NULL ){
+        printf("o livro : %s \n", livroViews->nome);
+        livroViews = livroViews->nextLivro;
+    }
+}
+
+// input novo livro
+void inputNewLivro(){
+
+    if(firstLivro ==  NULL){
+
+        createNewList();
+
+    } else {
+
+        struct livro *newlivro = (struct livro *) malloc( sizeof (struct livro));
+        printf("digite o nome do livro: \n");
+        scanf("%s",&newlivro->nome);
+        printf("adicionado o livro: %s",&newlivro->nome);
+        newlivro->isdoado = false;
+        newlivro->islea = false;
+
+        if(firstLivro == lastLivro){
+
+            firstLivro->nextLivro = newlivro;
+            lastLivro = newlivro;
+            newlivro->nextLivro = NULL;
+        } else {
+            lastLivro->nextLivro = newlivro;
+            newlivro->nextLivro = NULL;
+            lastLivro = newlivro;
+        }
+    }
 
 }
 
@@ -54,6 +97,7 @@ int main()
         if( opc == 1){
             system("cls");
             printf("verificando lista de livros : \n");
+            outLivroData();
             system("pause");
         }
         if( opc == 2){
