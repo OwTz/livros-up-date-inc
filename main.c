@@ -25,6 +25,7 @@ void createNewList(){
     printf("digite o nome do livro: \n");
     scanf("%s",&newlivro->nome);
     printf("adicionado o livro: %s",&newlivro->nome);
+    newlivro->id = 0;
     newlivro->isdoado = false;
     newlivro->islea = false;
     firstLivro = lastLivro = newlivro;
