@@ -2,26 +2,23 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-// node for list
-
-
 // livro struct
-struct livro{
+typedef struct livro{
+    int id;
     char nome[30];
     bool islea;
     bool isdoado;
-
-    // nó para a outra estrutura
+    // nï¿½ para a outra estrutura
     struct livro *nextLivro;
-};
+ } livro; 
 
 // firstLivro e LastLivro
-struct livro *firstLivro = NULL;
-struct livro *lastLivro = NULL;
+ livro *firstLivro = NULL;
+ livro *lastLivro = NULL;
 
 // criando uma nova lista
 void createNewList(){
-    struct livro *newlivro = (struct livro *) malloc( sizeof (struct livro));
+     livro *newlivro = ( livro *) malloc( sizeof ( livro));
 
     newlivro->nextLivro = NULL;
 
@@ -30,16 +27,15 @@ void createNewList(){
     printf("adicionado o livro: %s",&newlivro->nome);
     newlivro->isdoado = false;
     newlivro->islea = false;
-
     firstLivro = lastLivro = newlivro;
 
 }
-// saída de todos os livros
+// saï¿½da de todos os livros
 void outLivroData(){
-    struct livro *livroViews = firstLivro;
+     livro *livroViews = firstLivro;
     printf("iniciando novo produto \n");
     while(livroViews != NULL ){
-        printf("o livro : %s \n", livroViews->nome);
+        printf("o livro : %s  \n com id: %i \n", livroViews->nome, livroViews->id);
         livroViews = livroViews->nextLivro;
     }
 }
@@ -52,19 +48,21 @@ void inputNewLivro(){
         createNewList();
 
     } else {
-
-        struct livro *newlivro = (struct livro *) malloc( sizeof (struct livro));
+        // node for list
+         livro *newlivro = ( livro *) malloc( sizeof ( livro));
         printf("digite o nome do livro: \n");
         scanf("%s",&newlivro->nome);
         printf("adicionado o livro: %s",&newlivro->nome);
         newlivro->isdoado = false;
         newlivro->islea = false;
+        newlivro->id = lastLivro->id + 1;
 
         if(firstLivro == lastLivro){
 
             firstLivro->nextLivro = newlivro;
             lastLivro = newlivro;
             newlivro->nextLivro = NULL;
+
         } else {
             lastLivro->nextLivro = newlivro;
             newlivro->nextLivro = NULL;
@@ -73,11 +71,33 @@ void inputNewLivro(){
     }
 
 }
+//  identificar o livro;
+ livro *findLivro(int id){
+     livro *curd;
+    for (curd = firstLivro; curd ; curd=curd->nextLivro ){
+        if(curd->id == id){
+            return curd;
+        } 
+        
+    }
+    return NULL;
+}
+
+int editLivro( int id, bool lido, bool doado){
+    livro *livroedit = findLivro(id);
+    if(!livroedit){
+        return 1;
+    }
+    livroedit->isdoado = doado;
+    livroedit->islea = lido;
+    return 0;
+}
+
 
 int main()
 {
     /*
-        criação do menu do sistema
+        criaï¿½ï¿½o do menu do sistema
     */
 
     printf("bem-vindo! ao livrosUP... \n");
@@ -86,9 +106,9 @@ int main()
     bool running = true;
     while(running)
     {
-        // criando variável de opções
+        // criando variï¿½vel de opï¿½ï¿½es
         int opc;
-        printf("escolha uma das opções: \n 0 - fechar \n 1 - ver lista \n 2 - adicionar livro \n 3 - colocar novo livro \n");
+        printf("escolha uma das opï¿½ï¿½es: \n 0 - fechar \n 1 - ver lista \n 2 - adicionar livro \n 3 - colocar novo livro \n");
         scanf("%d",&opc);
         if(opc == 0){
             printf("fechando programa...");
@@ -106,7 +126,7 @@ int main()
             inputNewLivro();
         }
         else {
-            printf("escolha uma opção válida \n");
+            printf("editar  vï¿½lida \n");
             system("cls");
         }
     }
