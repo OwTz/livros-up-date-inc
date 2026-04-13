@@ -39,7 +39,7 @@ void outLivroData(){
 
         printf("o livro : %s  \n com id: %i \n foi Lido? %d \n foi daodo? %d \n", livroViews->nome, livroViews->id, livroViews->islea, livroViews->isdoado);
         livroViews = livroViews->nextLivro;
-        
+
     }
 }
 
@@ -97,7 +97,36 @@ int editLivro( int id, bool lido, bool doado){
 }
 
 void removeLivrosDoados(){
-
+    printf("removendo livros doados...");
+    livro *prev = NULL;
+    livro *current = firstLivro;
+    while (current != NULL) {
+        if (current->isdoado == 1) {
+            livro *to_free = current;
+            current = current->nextLivro;
+            if (prev == NULL) {
+                firstLivro = current;
+            } else {
+                prev->nextLivro = current;
+            }
+            if (current == NULL) {
+                lastLivro = prev;
+            }
+            free(to_free);
+        } else {
+            prev = current;
+            current = current->nextLivro;
+        }
+    }
+    // FIX se o livro for NULL
+    if (firstLivro != NULL && lastLivro != NULL && lastLivro->nextLivro != NULL) {
+        lastLivro = firstLivro;
+        while (lastLivro->nextLivro != NULL) {
+            lastLivro = lastLivro->nextLivro;
+        }
+    } else if (firstLivro == NULL) {
+        lastLivro = NULL;
+    }
 }
 
 int main()
@@ -155,7 +184,9 @@ int main()
         }
         if ( opc == 4){
             system("cls");
-            printf("Apagando livros doados... \n");
+
+            removeLivrosDoados();
+            system("pause");
         }
 
         else {
