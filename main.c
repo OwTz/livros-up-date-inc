@@ -8,7 +8,7 @@ typedef struct livro{
     char nome[30];
     bool islea;
     bool isdoado;
-    // n� para a outra estrutura
+    // node para a outra estrutura
     struct livro *nextLivro;
  } livro; 
 
@@ -33,11 +33,13 @@ void createNewList(){
 }
 // sa�da de todos os livros
 void outLivroData(){
-     livro *livroViews = firstLivro;
-    printf("iniciando novo produto \n");
+    printf("======== Lista de livros no sistema ======== \n");
+    livro *livroViews = firstLivro;
     while(livroViews != NULL ){
-        printf("o livro : %s  \n com id: %i \n", livroViews->nome, livroViews->id);
+
+        printf("o livro : %s  \n com id: %i \n foi Lido? %d \n foi daodo? %d \n", livroViews->nome, livroViews->id, livroViews->islea, livroViews->isdoado);
         livroViews = livroViews->nextLivro;
+        
     }
 }
 
@@ -50,7 +52,7 @@ void inputNewLivro(){
 
     } else {
         // node for list
-         livro *newlivro = ( livro *) malloc( sizeof ( livro));
+        livro *newlivro = ( livro *) malloc( sizeof ( livro));
         printf("digite o nome do livro: \n");
         scanf("%s",&newlivro->nome);
         printf("adicionado o livro: %s",&newlivro->nome);
@@ -94,11 +96,14 @@ int editLivro( int id, bool lido, bool doado){
     return 0;
 }
 
+void removeLivrosDoados(){
+
+}
 
 int main()
 {
     /*
-        cria��o do menu do sistema
+        criacaoo do menu do sistema
     */
 
     printf("bem-vindo! ao livrosUP... \n");
@@ -109,7 +114,7 @@ int main()
     {
         // criando vari�vel de op��es
         int opc;
-        printf("escolha uma das op��es: \n 0 - fechar \n 1 - ver lista \n 2 - adicionar livro \n 3 - colocar novo livro \n");
+        printf("escolha uma das op��es: \n 0 - fechar \n 1 - ver lista \n 2 - adicionar livro \n 3 - editar livro \n 4 - remover livros dados \n");
         scanf("%d",&opc);
         if(opc == 0){
             printf("fechando programa...");
@@ -122,12 +127,39 @@ int main()
             system("pause");
         }
         if( opc == 2){
+            system("cls");
             printf("%s",header);
             printf("vamos adicionar um novo livro \n");
             inputNewLivro();
         }
+        if( opc == 3){
+
+            system("cls");
+            printf("Vamos modificar o livro");
+            int idlivro, doado,lido;
+
+            printf("digite o ID do livro que deseja modificar \n");
+            scanf("%d", &idlivro);
+
+            printf("digite o valor se o livro foi doado: \n valores: 1 - SIM  0 - NÃO : \n");
+            scanf("%d", &doado);
+            printf("digite o valor se o livro foi lido: \n valores: 1 - SIM  0 - NÃO : \n");
+            scanf("%d", &lido);
+
+            int edicao = editLivro(idlivro,lido,doado);
+            if(edicao == 1){
+                printf("livro não encontrado... \n tente novamente.\n");
+                system("pause");
+            }
+            
+        }
+        if ( opc == 4){
+            system("cls");
+            printf("Apagando livros doados... \n");
+        }
+
         else {
-            printf("editar  v�lida \n");
+            printf("Valor inválido, tente novamente com um valor válido \n");
             system("cls");
         }
     }
